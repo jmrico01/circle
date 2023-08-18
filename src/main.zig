@@ -71,13 +71,13 @@ pub fn main() !void
 
     const args = try std.process.argsAlloc(allocator);
     defer std.process.argsFree(allocator, args);
-    if (args.len != 2) {
-        std.log.err("Expected arguments: radius", .{});
+    if (args.len != 3) {
+        std.log.err("Expected arguments: image-size radius", .{});
         return error.BadArgs;
     }
 
     // Setup and clear image pixels
-    const imgSize = 64;
+    const imgSize = try std.fmt.parseUnsigned(u32, args[1], 10);
     var img = try allocator.alloc(u8, imgSize * imgSize);
     defer allocator.free(img);
     @memset(img, 0);
@@ -85,7 +85,7 @@ pub fn main() !void
     // Calculate+write circle pixels to image
     const centerX = imgSize / 2;
     const centerY = centerX;
-    const radius = try std.fmt.parseUnsigned(u32, args[1], 10);
+    const radius = try std.fmt.parseUnsigned(u32, args[2], 10);
     writeCircle(img, imgSize, centerX, centerY, radius);
 
     // Print image pixels
