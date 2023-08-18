@@ -83,8 +83,8 @@ pub fn main() !void
     @memset(img, 0);
 
     // Calculate+write circle pixels to image
-    const centerX = 32;
-    const centerY = 32;
+    const centerX = imgSize / 2;
+    const centerY = centerX;
     const radius = try std.fmt.parseUnsigned(u32, args[1], 10);
     writeCircle(img, imgSize, centerX, centerY, radius);
 
